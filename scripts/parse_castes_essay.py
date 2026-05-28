@@ -65,7 +65,7 @@ CHAPTERS = [
         "id":    "ch_05",
         "title": "சாதியின் வளர்ச்சியும் முடிவும்",
         "start": 82,
-        "end":   102,
+        "end":   103,
         "heading_first": False,
     },
 ]
