@@ -7,7 +7,9 @@ import com.tamilbookreader.app.BookReaderApp
 import com.tamilbookreader.app.domain.Book
 import com.tamilbookreader.app.domain.ChapterContent
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -27,6 +29,12 @@ class ReaderViewModel(app: Application) : AndroidViewModel(app) {
 
     private val _state = MutableStateFlow(ReaderState())
     val state = _state.asStateFlow()
+
+    // Emits the target chapter index when an interstitial should be shown before navigating
+    private val _showAd = MutableSharedFlow<Int>()
+    val showAd = _showAd.asSharedFlow()
+
+    private var navCount = 0
 
     init {
         // Sync bookmark icon whenever the shared bookmark set changes
@@ -57,8 +65,15 @@ class ReaderViewModel(app: Application) : AndroidViewModel(app) {
     fun navigateTo(index: Int) {
         val total = _state.value.book?.totalChapters ?: return
         if (index !in 0 until total) return
-        loadChapter(index)
+        navCount++
+        if (navCount % 3 == 0) {
+            viewModelScope.launch { _showAd.emit(index) }
+        } else {
+            loadChapter(index)
+        }
     }
+
+    fun loadChapterAfterAd(index: Int) = loadChapter(index)
 
     fun toggleBookmark() {
         val id = currentChapterId() ?: return

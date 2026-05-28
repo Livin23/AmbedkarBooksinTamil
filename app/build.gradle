@@ -3,6 +3,10 @@ plugins {
     id 'org.jetbrains.kotlin.android'
 }
 
+def keystorePropsFile = rootProject.file("keystore.properties")
+def keystoreProps = new Properties()
+if (keystorePropsFile.exists()) keystoreProps.load(new FileInputStream(keystorePropsFile))
+
 android {
     namespace 'com.tamilbookreader.app'
     compileSdk 35
@@ -15,10 +19,21 @@ android {
         versionName "1.0"
     }
 
+    signingConfigs {
+        release {
+            storeFile     file(keystoreProps['storeFile'])
+            storePassword keystoreProps['storePassword']
+            keyAlias      keystoreProps['keyAlias']
+            keyPassword   keystoreProps['keyPassword']
+        }
+    }
+
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled   true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
 
@@ -56,4 +71,5 @@ dependencies {
     implementation 'io.coil-kt:coil-compose:2.5.0'
     implementation 'com.google.code.gson:gson:2.10.1'
     implementation 'androidx.datastore:datastore-preferences:1.0.0'
+    implementation 'com.google.android.gms:play-services-ads:23.0.0'
 }

@@ -12,6 +12,10 @@
         android:theme="@style/Theme.TamilReader"
         android:supportsRtl="true">
 
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-7765068854860263~2762021596"/>
+
         <activity
             android:name=".MainActivity"
             android:exported="true"

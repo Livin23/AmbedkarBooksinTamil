@@ -8,5 +8,7 @@
 .externalNativeBuild
 .cxx
 *.keystore
+*.jks
 !debug.keystore
+keystore.properties
 app/build/
