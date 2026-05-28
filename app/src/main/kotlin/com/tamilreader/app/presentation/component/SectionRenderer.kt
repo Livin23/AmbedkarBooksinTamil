@@ -32,7 +32,7 @@ fun SectionRenderer(section: Section, modifier: Modifier = Modifier) {
             text     = section.content,
             style    = t.body,
             color    = c.text,
-            modifier = modifier.padding(vertical = 6.dp)
+            modifier = modifier.padding(vertical = 8.dp)
         )
 
         SectionType.QUOTE -> Card(

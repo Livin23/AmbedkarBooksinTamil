@@ -11,6 +11,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.*
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.tamilbookreader.app.presentation.component.ChapterProgressBar
@@ -78,21 +79,39 @@ fun ReaderScreen(
             val hasPrev = state.currentIndex > 0
             val hasNext = state.book?.let { state.currentIndex < it.totalChapters - 1 } ?: false
 
-            NavigationBar(containerColor = c.surface, tonalElevation = 0.dp) {
-                NavigationBarItem(
-                    selected = false, enabled = hasPrev,
-                    onClick  = { vm.navigateTo(state.currentIndex - 1) },
-                    icon     = { Icon(Icons.Filled.ChevronLeft, "முந்தைய") },
-                    label    = { Text("முந்தைய", style = t.caption) },
-                    colors   = NavigationBarItemDefaults.colors(indicatorColor = c.quoteBg)
-                )
-                NavigationBarItem(
-                    selected = false, enabled = hasNext,
-                    onClick  = { vm.navigateTo(state.currentIndex + 1) },
-                    icon     = { Icon(Icons.Filled.ChevronRight, "அடுத்த") },
-                    label    = { Text("அடுத்த", style = t.caption) },
-                    colors   = NavigationBarItemDefaults.colors(indicatorColor = c.quoteBg)
-                )
+            Surface(
+                color         = c.surface,
+                shadowElevation = 8.dp,
+                modifier      = Modifier.fillMaxWidth()
+            ) {
+                Row(
+                    modifier            = Modifier
+                        .fillMaxWidth()
+                        .navigationBarsPadding()
+                        .padding(horizontal = 24.dp, vertical = 10.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    TextButton(
+                        onClick  = { vm.navigateTo(state.currentIndex - 1) },
+                        enabled  = hasPrev,
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        Icon(Icons.Filled.ChevronLeft, null, tint = if (hasPrev) c.accent else c.textSec)
+                        Spacer(Modifier.width(4.dp))
+                        Text("முந்தைய", style = t.caption.copy(fontSize = 14.sp),
+                            color = if (hasPrev) c.accent else c.textSec)
+                    }
+                    TextButton(
+                        onClick  = { vm.navigateTo(state.currentIndex + 1) },
+                        enabled  = hasNext,
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        Text("அடுத்த", style = t.caption.copy(fontSize = 14.sp),
+                            color = if (hasNext) c.accent else c.textSec)
+                        Spacer(Modifier.width(4.dp))
+                        Icon(Icons.Filled.ChevronRight, null, tint = if (hasNext) c.accent else c.textSec)
+                    }
+                }
             }
         },
         containerColor = c.bg
@@ -106,8 +125,8 @@ fun ReaderScreen(
             }
             else -> LazyColumn(
                 state          = listState,
-                modifier       = Modifier.fillMaxSize().padding(padding).padding(horizontal = 20.dp),
-                contentPadding = PaddingValues(vertical = 20.dp)
+                modifier       = Modifier.fillMaxSize().padding(padding).padding(horizontal = 24.dp),
+                contentPadding = PaddingValues(vertical = 24.dp)
             ) {
                 state.content?.sections?.let { sections ->
                     items(sections, key = { "${it.type}_${it.content.take(25)}" }) { section ->

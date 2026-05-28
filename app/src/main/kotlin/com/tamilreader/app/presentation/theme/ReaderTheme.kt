@@ -37,8 +37,8 @@ data class ReaderTypography(
 fun buildTypography() = ReaderTypography(
     title   = TextStyle(fontSize = 26.sp, fontWeight = FontWeight.Bold,   lineHeight = 36.sp, letterSpacing = 0.sp),
     heading = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.Medium, lineHeight = 30.sp, letterSpacing = 0.sp),
-    body    = TextStyle(fontSize = 18.sp, fontWeight = FontWeight.Normal, lineHeight = 32.sp, letterSpacing = 0.2.sp),
-    quote   = TextStyle(fontSize = 17.sp, fontWeight = FontWeight.Normal, lineHeight = 30.sp, letterSpacing = 0.sp),
+    body    = TextStyle(fontSize = 18.sp, fontWeight = FontWeight.Normal, lineHeight = 36.sp, letterSpacing = 0.2.sp),
+    quote   = TextStyle(fontSize = 17.sp, fontWeight = FontWeight.Normal, lineHeight = 34.sp, letterSpacing = 0.sp),
     caption = TextStyle(fontSize = 13.sp, fontWeight = FontWeight.Normal, lineHeight = 20.sp)
 )
 
