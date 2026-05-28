@@ -1,0 +1,40 @@
+{
+  "id": "ambedkar_castes_in_india",
+  "title": "இந்தியாவில் சாதிகள்",
+  "author": "டாக்டர் பி ஆர். அம்பேத்கர்",
+  "coverImagePath": "",
+  "language": "ta",
+  "totalChapters": 5,
+  "chapters": [
+    {
+      "id": "ch_01",
+      "index": 0,
+      "title": "முன்னுரை - சாதியின் இயல்பு",
+      "contentPath": "content/ch_01.json"
+    },
+    {
+      "id": "ch_02",
+      "index": 1,
+      "title": "சாதியின் வரையறைகளும் அகமண முறையும்",
+      "contentPath": "content/ch_02.json"
+    },
+    {
+      "id": "ch_03",
+      "index": 2,
+      "title": "சாதியின் அமைப்பியக்கம்",
+      "contentPath": "content/ch_03.json"
+    },
+    {
+      "id": "ch_04",
+      "index": 3,
+      "title": "சாதியின் தோற்றம்",
+      "contentPath": "content/ch_04.json"
+    },
+    {
+      "id": "ch_05",
+      "index": 4,
+      "title": "சாதியின் வளர்ச்சியும் முடிவும்",
+      "contentPath": "content/ch_05.json"
+    }
+  ]
+}
