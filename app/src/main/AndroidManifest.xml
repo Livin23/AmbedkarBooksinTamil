@@ -8,8 +8,8 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:label="Ambedkar-இந்தியாவில் சாதிகள்"
-        android:theme="@style/Theme.TamilReader"
+        android:label="இராசராச சோழன்"
+        android:theme="@style/Theme.RajarajanReader"
         android:supportsRtl="true">
 
         <meta-data
