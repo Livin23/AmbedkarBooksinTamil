@@ -27,8 +27,9 @@ import com.rajarajanreader.app.presentation.theme.LocalReaderTypography
 import kotlinx.coroutines.delay
 
 @Composable
-fun SplashScreen(onStart: () -> Unit, vm: SplashViewModel = viewModel()) {
-    val state   by vm.state.collectAsStateWithLifecycle()
+fun SplashScreen(onStart: (isFirstLaunch: Boolean) -> Unit, vm: SplashViewModel = viewModel()) {
+    val state          by vm.state.collectAsStateWithLifecycle()
+    val onboardingShown by vm.onboardingShown.collectAsStateWithLifecycle()
     val c       = LocalReaderColors.current
     val t       = LocalReaderTypography.current
     var visible by remember { mutableStateOf(false) }
@@ -137,7 +138,7 @@ fun SplashScreen(onStart: () -> Unit, vm: SplashViewModel = viewModel()) {
 
                     // ── Start button ────────────────────────────────────────
                     Button(
-                        onClick  = onStart,
+                        onClick  = { onStart(!onboardingShown) },
                         modifier = Modifier.fillMaxWidth().height(56.dp),
                         shape    = RoundedCornerShape(16.dp),
                         colors   = ButtonDefaults.buttonColors(

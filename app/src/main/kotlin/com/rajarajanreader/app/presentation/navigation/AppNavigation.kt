@@ -8,6 +8,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.rajarajanreader.app.domain.ReadingTheme
 import com.rajarajanreader.app.presentation.screen.index.IndexScreen
+import com.rajarajanreader.app.presentation.screen.onboarding.OnboardingScreen
 import com.rajarajanreader.app.presentation.screen.reader.ReaderScreen
 import com.rajarajanreader.app.presentation.screen.search.SearchScreen
 import com.rajarajanreader.app.presentation.screen.splash.SplashScreen
@@ -21,8 +22,15 @@ fun AppNavigation(theme: ReadingTheme, onThemeCycle: () -> Unit) {
         NavHost(nav, startDestination = "splash") {
 
             composable("splash") {
-                SplashScreen(onStart = {
-                    nav.navigate("index") { popUpTo("splash") { inclusive = true } }
+                SplashScreen(onStart = { isFirstLaunch ->
+                    val dest = if (isFirstLaunch) "onboarding" else "index"
+                    nav.navigate(dest) { popUpTo("splash") { inclusive = true } }
+                })
+            }
+
+            composable("onboarding") {
+                OnboardingScreen(onDone = {
+                    nav.navigate("index") { popUpTo("onboarding") { inclusive = true } }
                 })
             }
 

@@ -18,9 +18,10 @@ class BookReaderApp : Application() {
     val scope     = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
     private object Keys {
-        val BOOKMARKS     = stringPreferencesKey("bookmarks")
-        val LAST_CHAPTER  = intPreferencesKey("last_chapter")
-        val FONT_SIZE     = floatPreferencesKey("font_size")
+        val BOOKMARKS        = stringPreferencesKey("bookmarks")
+        val LAST_CHAPTER     = intPreferencesKey("last_chapter")
+        val FONT_SIZE        = floatPreferencesKey("font_size")
+        val ONBOARDING_SHOWN = booleanPreferencesKey("onboarding_shown")
     }
 
     // ── Bookmarks ─────────────────────────────────────────────────────────────
@@ -49,6 +50,17 @@ class BookReaderApp : Application() {
 
     fun saveLastChapter(index: Int) {
         scope.launch { dataStore.edit { it[Keys.LAST_CHAPTER] = index } }
+    }
+
+    // ── Onboarding ────────────────────────────────────────────────────────────
+    val onboardingShown: StateFlow<Boolean> by lazy {
+        dataStore.data
+            .map { prefs -> prefs[Keys.ONBOARDING_SHOWN] ?: false }
+            .stateIn(scope, SharingStarted.Eagerly, false)
+    }
+
+    fun markOnboardingShown() {
+        scope.launch { dataStore.edit { it[Keys.ONBOARDING_SHOWN] = true } }
     }
 
     // ── Font size ─────────────────────────────────────────────────────────────
