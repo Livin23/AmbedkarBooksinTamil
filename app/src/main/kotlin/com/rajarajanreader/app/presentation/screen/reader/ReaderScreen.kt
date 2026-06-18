@@ -1,4 +1,4 @@
-package com.livin.ambedkarindhiavilsathigal.presentation.screen.reader
+package com.rajarajanreader.app.presentation.screen.reader
 
 import android.app.Activity
 import android.content.Intent
@@ -19,9 +19,12 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.*
+import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.boundsInWindow
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -29,13 +32,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.livin.ambedkarindhiavilsathigal.BookReaderApp
-import com.livin.ambedkarindhiavilsathigal.domain.SectionType
-import com.livin.ambedkarindhiavilsathigal.presentation.component.ChapterProgressBar
-import com.livin.ambedkarindhiavilsathigal.presentation.component.OrnamentalSectionDivider
-import com.livin.ambedkarindhiavilsathigal.presentation.component.SectionRenderer
-import com.livin.ambedkarindhiavilsathigal.presentation.theme.LocalReaderColors
-import com.livin.ambedkarindhiavilsathigal.presentation.theme.LocalReaderTypography
+import com.rajarajanreader.app.BookReaderApp
+import com.rajarajanreader.app.domain.SectionType
+import com.rajarajanreader.app.presentation.component.ChapterProgressBar
+import com.rajarajanreader.app.presentation.component.OrnamentalSectionDivider
+import com.rajarajanreader.app.presentation.component.SectionRenderer
+import com.rajarajanreader.app.presentation.theme.LocalReaderColors
+import com.rajarajanreader.app.presentation.theme.LocalReaderTypography
+import com.rajarajanreader.app.presentation.walkthrough.WalkthroughOverlay
+import com.rajarajanreader.app.presentation.walkthrough.readerWalkthroughSteps
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -56,7 +61,11 @@ fun ReaderScreen(
     var gestureEnabled by remember { mutableStateOf(false) }
     var swipeDragTotal by remember { mutableStateOf(0f) }
 
-    val adManager = remember { (context.applicationContext as BookReaderApp).adManager }
+    val app = context.applicationContext as BookReaderApp
+    val readerWalkthroughDone by app.readerWalkthroughDone.collectAsStateWithLifecycle()
+    val wtAnchors = remember { mutableStateMapOf<String, Rect>() }
+
+    val adManager = remember { app.adManager }
 
     LaunchedEffect(Unit) {
         vm.showAd.collect { targetIndex ->
@@ -136,7 +145,15 @@ fun ReaderScreen(
                     state          = listState,
                     modifier       = Modifier
                         .fillMaxSize()
-                        .padding(horizontal = 22.dp),
+                        .padding(horizontal = 22.dp)
+                        .onGloballyPositioned { coords ->
+                            // Register center-of-screen as content_center anchor
+                            val b = coords.boundsInWindow()
+                            val cx = b.center.x
+                            val cy = b.center.y
+                            val half = 80f
+                            wtAnchors["content_center"] = Rect(cx - half, cy - half, cx + half, cy + half)
+                        },
                     contentPadding = PaddingValues(top = 96.dp, bottom = 100.dp)
                 ) {
                     item {
@@ -176,7 +193,7 @@ fun ReaderScreen(
                     itemsIndexed(
                         items = sections,
                         key   = { i, s -> "${i}_${s.type}_${s.content.take(20)}" }
-                    ) { _, section ->
+                    ) { sectionIdx, section ->
                         val isFirst = !firstParaFound && section.type == SectionType.PARAGRAPH
                         if (isFirst) firstParaFound = true
                         val isPara  = section.type == SectionType.PARAGRAPH
@@ -187,17 +204,26 @@ fun ReaderScreen(
 
                         // Long press to share; onTap propagates bars toggle
                         var showShare by remember { mutableStateOf(false) }
+                        val isThirdParagraph = isPara && paraCount == 3
                         Box(
-                            modifier = Modifier.pointerInput(Unit) {
-                                detectTapGestures(
-                                    onTap = { onContentTap() },
-                                    onLongPress = {
-                                        if (section.type == SectionType.PARAGRAPH || section.type == SectionType.QUOTE) {
-                                            showShare = true
+                            modifier = Modifier
+                                .pointerInput(Unit) {
+                                    detectTapGestures(
+                                        onTap = { onContentTap() },
+                                        onLongPress = {
+                                            if (section.type == SectionType.PARAGRAPH || section.type == SectionType.QUOTE) {
+                                                showShare = true
+                                            }
                                         }
-                                    }
+                                    )
+                                }
+                                .then(
+                                    if (isThirdParagraph)
+                                        Modifier.onGloballyPositioned { coords ->
+                                            wtAnchors["paragraph_area"] = coords.boundsInWindow()
+                                        }
+                                    else Modifier
                                 )
-                            }
                         ) {
                             SectionRenderer(
                                 section          = section,
@@ -265,7 +291,12 @@ fun ReaderScreen(
                         title = {},
                         actions = {
                             // Font size
-                            IconButton(onClick = { vm.toggleFontPanel() }) {
+                            IconButton(
+                                onClick  = { vm.toggleFontPanel() },
+                                modifier = Modifier.onGloballyPositioned { coords ->
+                                    wtAnchors["font_icon"] = coords.boundsInWindow()
+                                }
+                            ) {
                                 Icon(Icons.Filled.FormatSize, "எழுத்து அளவு", tint = c.textSec)
                             }
                             // Bookmark
@@ -360,6 +391,15 @@ fun ReaderScreen(
                 colors       = c
             )
         }
+
+        // ── Reader walkthrough (first chapter open only) ─────────────────────
+        if (!readerWalkthroughDone && !state.isLoading && state.content != null) {
+            WalkthroughOverlay(
+                steps     = readerWalkthroughSteps,
+                anchors   = wtAnchors,
+                onComplete = { app.markReaderWalkthroughDone() }
+            )
+        }
     }
 }
 
@@ -368,7 +408,7 @@ private fun FontSizePanel(
     currentSize : Float,
     onSizeChange: (Float) -> Unit,
     onDismiss   : () -> Unit,
-    colors      : com.livin.ambedkarindhiavilsathigal.presentation.theme.ReaderColors
+    colors      : com.rajarajanreader.app.presentation.theme.ReaderColors
 ) {
     Surface(
         shape = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp),

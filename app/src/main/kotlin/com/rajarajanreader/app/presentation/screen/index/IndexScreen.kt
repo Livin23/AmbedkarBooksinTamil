@@ -1,4 +1,4 @@
-package com.livin.ambedkarindhiavilsathigal.presentation.screen.index
+package com.rajarajanreader.app.presentation.screen.index
 
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
@@ -15,8 +15,12 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.*
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.boundsInWindow
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -24,10 +28,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.livin.ambedkarindhiavilsathigal.domain.BookPart
-import com.livin.ambedkarindhiavilsathigal.domain.Chapter
-import com.livin.ambedkarindhiavilsathigal.presentation.theme.LocalReaderColors
-import com.livin.ambedkarindhiavilsathigal.presentation.theme.LocalReaderTypography
+import com.rajarajanreader.app.BookReaderApp
+import com.rajarajanreader.app.domain.BookPart
+import com.rajarajanreader.app.domain.Chapter
+import com.rajarajanreader.app.presentation.theme.LocalReaderColors
+import com.rajarajanreader.app.presentation.theme.LocalReaderTypography
+import com.rajarajanreader.app.presentation.walkthrough.WalkthroughOverlay
+import com.rajarajanreader.app.presentation.walkthrough.indexWalkthroughSteps
 
 sealed class IndexItem {
     data class Part(val part: BookPart) : IndexItem()
@@ -46,6 +53,11 @@ fun IndexScreen(
     val c         = LocalReaderColors.current
     val t         = LocalReaderTypography.current
     val listState = rememberLazyListState()
+    val context   = LocalContext.current
+    val app       = context.applicationContext as BookReaderApp
+
+    val walkthroughDone by app.indexWalkthroughDone.collectAsStateWithLifecycle()
+    val anchors = remember { mutableStateMapOf<String, Rect>() }
 
     val firstVisibleIndex by remember { derivedStateOf { listState.firstVisibleItemIndex } }
     val headerExpanded     = firstVisibleIndex == 0
@@ -103,10 +115,20 @@ fun IndexScreen(
                             ) {
                                 Text("♛", fontSize = 28.sp, color = c.gold)
                                 Row {
-                                    IconButton(onClick = onOpenSearch) {
+                                    IconButton(
+                                        onClick  = onOpenSearch,
+                                        modifier = Modifier.onGloballyPositioned { coords ->
+                                            anchors["search_icon"] = coords.boundsInWindow()
+                                        }
+                                    ) {
                                         Icon(Icons.Filled.Search, "தேடு", tint = c.gold)
                                     }
-                                    IconButton(onClick = onThemeCycle) {
+                                    IconButton(
+                                        onClick  = onThemeCycle,
+                                        modifier = Modifier.onGloballyPositioned { coords ->
+                                            anchors["theme_icon"] = coords.boundsInWindow()
+                                        }
+                                    ) {
                                         Icon(Icons.Filled.Brightness4, "கோலம்", tint = c.gold)
                                     }
                                 }
@@ -169,13 +191,17 @@ fun IndexScreen(
                             is IndexItem.Ch   -> {
                                 val bookmarked = item.chapter.id in state.bookmarks
                                 val resumeHere = state.lastChapter == item.globalIdx
+                                val isFirstChapter = item.globalIdx == 0
                                 ChapterCard(
                                     index      = item.globalIdx + 1,
                                     title      = item.chapter.title,
                                     bookmarked = bookmarked,
                                     resumeHere = resumeHere,
                                     onClick    = { onChapterClick(item.globalIdx) },
-                                    delay      = (listIdx * 15).coerceAtMost(250)
+                                    delay      = (listIdx * 15).coerceAtMost(250),
+                                    onPositioned = if (isFirstChapter) { rect ->
+                                        anchors["first_chapter"] = rect
+                                    } else null
                                 )
                                 Spacer(Modifier.height(10.dp))
                             }
@@ -184,6 +210,15 @@ fun IndexScreen(
                     item { Spacer(Modifier.height(24.dp)) }
                 }
             }
+        }
+
+        // ── Walkthrough overlay (first-run only) ─────────────────────────────
+        if (!walkthroughDone) {
+            WalkthroughOverlay(
+                steps     = indexWalkthroughSteps,
+                anchors   = anchors,
+                onComplete = { app.markIndexWalkthroughDone() }
+            )
         }
     }
 }
@@ -218,12 +253,13 @@ private fun PartHeader(part: BookPart, modifier: Modifier = Modifier) {
 
 @Composable
 private fun ChapterCard(
-    index     : Int,
-    title     : String,
-    bookmarked: Boolean,
-    resumeHere: Boolean,
-    onClick   : () -> Unit,
-    delay     : Int
+    index       : Int,
+    title       : String,
+    bookmarked  : Boolean,
+    resumeHere  : Boolean,
+    onClick     : () -> Unit,
+    delay       : Int,
+    onPositioned: ((Rect) -> Unit)? = null
 ) {
     val c = LocalReaderColors.current
     val t = LocalReaderTypography.current
@@ -239,7 +275,14 @@ private fun ChapterCard(
         enter   = fadeIn(tween(400)) + slideInHorizontally(tween(400)) { -it / 5 }
     ) {
         Surface(
-            modifier        = Modifier.fillMaxWidth().clickable(onClick = onClick),
+            modifier        = Modifier
+                .fillMaxWidth()
+                .clickable(onClick = onClick)
+                .then(
+                    if (onPositioned != null)
+                        Modifier.onGloballyPositioned { coords -> onPositioned(coords.boundsInWindow()) }
+                    else Modifier
+                ),
             shape           = RoundedCornerShape(14.dp),
             color           = c.surface,
             shadowElevation = 4.dp

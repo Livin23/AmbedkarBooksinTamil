@@ -1,12 +1,12 @@
-package com.livin.ambedkarindhiavilsathigal
+package com.rajarajanreader.app
 
 import android.app.Application
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.*
 import androidx.datastore.preferences.preferencesDataStore
 import com.google.android.gms.ads.MobileAds
-import com.livin.ambedkarindhiavilsathigal.ads.AdManager
-import com.livin.ambedkarindhiavilsathigal.data.BookRepository
+import com.rajarajanreader.app.ads.AdManager
+import com.rajarajanreader.app.data.BookRepository
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 
@@ -18,10 +18,11 @@ class BookReaderApp : Application() {
     val scope     = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
     private object Keys {
-        val BOOKMARKS        = stringPreferencesKey("bookmarks")
-        val LAST_CHAPTER     = intPreferencesKey("last_chapter")
-        val FONT_SIZE        = floatPreferencesKey("font_size")
-        val ONBOARDING_SHOWN = booleanPreferencesKey("onboarding_shown")
+        val BOOKMARKS              = stringPreferencesKey("bookmarks")
+        val LAST_CHAPTER           = intPreferencesKey("last_chapter")
+        val FONT_SIZE              = floatPreferencesKey("font_size")
+        val INDEX_WALKTHROUGH_DONE = booleanPreferencesKey("index_walkthrough_done")
+        val READER_WALKTHROUGH_DONE= booleanPreferencesKey("reader_walkthrough_done")
     }
 
     // ── Bookmarks ─────────────────────────────────────────────────────────────
@@ -52,17 +53,6 @@ class BookReaderApp : Application() {
         scope.launch { dataStore.edit { it[Keys.LAST_CHAPTER] = index } }
     }
 
-    // ── Onboarding ────────────────────────────────────────────────────────────
-    val onboardingShown: StateFlow<Boolean> by lazy {
-        dataStore.data
-            .map { prefs -> prefs[Keys.ONBOARDING_SHOWN] ?: false }
-            .stateIn(scope, SharingStarted.Eagerly, false)
-    }
-
-    fun markOnboardingShown() {
-        scope.launch { dataStore.edit { it[Keys.ONBOARDING_SHOWN] = true } }
-    }
-
     // ── Font size ─────────────────────────────────────────────────────────────
     val fontSize: StateFlow<Float> by lazy {
         dataStore.data
@@ -72,6 +62,27 @@ class BookReaderApp : Application() {
 
     fun saveFontSize(size: Float) {
         scope.launch { dataStore.edit { it[Keys.FONT_SIZE] = size } }
+    }
+
+    // ── Walkthrough seen flags ────────────────────────────────────────────────
+    val indexWalkthroughDone: StateFlow<Boolean> by lazy {
+        dataStore.data
+            .map { it[Keys.INDEX_WALKTHROUGH_DONE] ?: false }
+            .stateIn(scope, SharingStarted.Eagerly, false)
+    }
+
+    val readerWalkthroughDone: StateFlow<Boolean> by lazy {
+        dataStore.data
+            .map { it[Keys.READER_WALKTHROUGH_DONE] ?: false }
+            .stateIn(scope, SharingStarted.Eagerly, false)
+    }
+
+    fun markIndexWalkthroughDone() {
+        scope.launch { dataStore.edit { it[Keys.INDEX_WALKTHROUGH_DONE] = true } }
+    }
+
+    fun markReaderWalkthroughDone() {
+        scope.launch { dataStore.edit { it[Keys.READER_WALKTHROUGH_DONE] = true } }
     }
 
     override fun onCreate() {
