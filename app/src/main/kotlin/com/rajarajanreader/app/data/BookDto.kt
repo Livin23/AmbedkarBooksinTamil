@@ -1,4 +1,4 @@
-package com.rajarajanreader.app.data
+package com.livin.ambedkarindhiavilsathigal.data
 
 import com.google.gson.annotations.SerializedName
 

@@ -1,4 +1,4 @@
-package com.rajarajanreader.app.presentation.screen.search
+package com.livin.ambedkarindhiavilsathigal.presentation.screen.search
 
 import android.app.Application
 import androidx.compose.animation.*
@@ -31,10 +31,10 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.rajarajanreader.app.BookReaderApp
-import com.rajarajanreader.app.domain.SectionType
-import com.rajarajanreader.app.presentation.theme.LocalReaderColors
-import com.rajarajanreader.app.presentation.theme.LocalReaderTypography
+import com.livin.ambedkarindhiavilsathigal.BookReaderApp
+import com.livin.ambedkarindhiavilsathigal.domain.SectionType
+import com.livin.ambedkarindhiavilsathigal.presentation.theme.LocalReaderColors
+import com.livin.ambedkarindhiavilsathigal.presentation.theme.LocalReaderTypography
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.*
@@ -257,8 +257,8 @@ private fun SearchResultCard(
     result : SearchResult,
     query  : String,
     onClick: () -> Unit,
-    colors : com.rajarajanreader.app.presentation.theme.ReaderColors,
-    t      : com.rajarajanreader.app.presentation.theme.ReaderTypography
+    colors : com.livin.ambedkarindhiavilsathigal.presentation.theme.ReaderColors,
+    t      : com.livin.ambedkarindhiavilsathigal.presentation.theme.ReaderTypography
 ) {
     Surface(
         modifier       = Modifier.fillMaxWidth().clickable(onClick = onClick),

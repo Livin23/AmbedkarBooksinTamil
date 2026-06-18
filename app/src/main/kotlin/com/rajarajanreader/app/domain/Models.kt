@@ -1,4 +1,4 @@
-package com.rajarajanreader.app.domain
+package com.livin.ambedkarindhiavilsathigal.domain
 
 data class Book(
     val id: String,

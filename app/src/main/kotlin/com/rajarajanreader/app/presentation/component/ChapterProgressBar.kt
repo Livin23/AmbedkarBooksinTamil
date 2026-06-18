@@ -1,4 +1,4 @@
-package com.rajarajanreader.app.presentation.component
+package com.livin.ambedkarindhiavilsathigal.presentation.component
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
@@ -13,8 +13,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.unit.dp
-import com.rajarajanreader.app.presentation.theme.LocalReaderColors
-import com.rajarajanreader.app.presentation.theme.LocalReaderTypography
+import com.livin.ambedkarindhiavilsathigal.presentation.theme.LocalReaderColors
+import com.livin.ambedkarindhiavilsathigal.presentation.theme.LocalReaderTypography
 
 @Composable
 fun ChapterProgressBar(current: Int, total: Int) {

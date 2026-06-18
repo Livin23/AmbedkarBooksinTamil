@@ -1,9 +1,9 @@
-# CLAUDE.md — RajarajanReader
+# CLAUDE.md — Ambedkar இந்தியாவில் சாதிகள்
 
 ## What this is
 Android **Jetpack Compose** book-reader app (Kotlin, MVVM).  
-Book: *இராசராச சோழன்* (Tamil historical novel) — 23 chapters loaded from local JSON assets.  
-Forked from TamilBookReader; redesigned with a **Royal Chola** theme.
+Book: *இந்தியாவில் சாதிகள்* by Dr. B.R. Ambedkar — 5 chapters loaded from local JSON assets.  
+Package: `com.livin.ambedkarindhiavilsathigal`
 
 ---
 

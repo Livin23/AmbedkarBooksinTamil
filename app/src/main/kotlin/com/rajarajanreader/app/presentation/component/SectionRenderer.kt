@@ -1,4 +1,4 @@
-package com.rajarajanreader.app.presentation.component
+package com.livin.ambedkarindhiavilsathigal.presentation.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -25,10 +25,10 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.foundation.layout.offset
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.rajarajanreader.app.domain.Section
-import com.rajarajanreader.app.domain.SectionType
-import com.rajarajanreader.app.presentation.theme.LocalReaderColors
-import com.rajarajanreader.app.presentation.theme.LocalReaderTypography
+import com.livin.ambedkarindhiavilsathigal.domain.Section
+import com.livin.ambedkarindhiavilsathigal.domain.SectionType
+import com.livin.ambedkarindhiavilsathigal.presentation.theme.LocalReaderColors
+import com.livin.ambedkarindhiavilsathigal.presentation.theme.LocalReaderTypography
 
 @Composable
 fun SectionRenderer(

@@ -1,4 +1,4 @@
-package com.rajarajanreader.app.presentation.navigation
+package com.livin.ambedkarindhiavilsathigal.presentation.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavType
@@ -6,13 +6,13 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.rajarajanreader.app.domain.ReadingTheme
-import com.rajarajanreader.app.presentation.screen.index.IndexScreen
-import com.rajarajanreader.app.presentation.screen.onboarding.OnboardingScreen
-import com.rajarajanreader.app.presentation.screen.reader.ReaderScreen
-import com.rajarajanreader.app.presentation.screen.search.SearchScreen
-import com.rajarajanreader.app.presentation.screen.splash.SplashScreen
-import com.rajarajanreader.app.presentation.theme.TamilReaderTheme
+import com.livin.ambedkarindhiavilsathigal.domain.ReadingTheme
+import com.livin.ambedkarindhiavilsathigal.presentation.screen.index.IndexScreen
+import com.livin.ambedkarindhiavilsathigal.presentation.screen.onboarding.OnboardingScreen
+import com.livin.ambedkarindhiavilsathigal.presentation.screen.reader.ReaderScreen
+import com.livin.ambedkarindhiavilsathigal.presentation.screen.search.SearchScreen
+import com.livin.ambedkarindhiavilsathigal.presentation.screen.splash.SplashScreen
+import com.livin.ambedkarindhiavilsathigal.presentation.theme.TamilReaderTheme
 
 @Composable
 fun AppNavigation(theme: ReadingTheme, onThemeCycle: () -> Unit) {

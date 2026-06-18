@@ -1,12 +1,12 @@
-package com.rajarajanreader.app
+package com.livin.ambedkarindhiavilsathigal
 
 import android.app.Application
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.*
 import androidx.datastore.preferences.preferencesDataStore
 import com.google.android.gms.ads.MobileAds
-import com.rajarajanreader.app.ads.AdManager
-import com.rajarajanreader.app.data.BookRepository
+import com.livin.ambedkarindhiavilsathigal.ads.AdManager
+import com.livin.ambedkarindhiavilsathigal.data.BookRepository
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 

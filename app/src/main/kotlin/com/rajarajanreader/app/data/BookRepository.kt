@@ -1,8 +1,8 @@
-package com.rajarajanreader.app.data
+package com.livin.ambedkarindhiavilsathigal.data
 
 import android.content.Context
 import com.google.gson.Gson
-import com.rajarajanreader.app.domain.*
+import com.livin.ambedkarindhiavilsathigal.domain.*
 
 class BookRepository(private val context: Context) {
     private val gson = Gson()

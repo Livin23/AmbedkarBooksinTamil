@@ -1,4 +1,4 @@
-package com.rajarajanreader.app.presentation.screen.splash
+package com.livin.ambedkarindhiavilsathigal.presentation.screen.splash
 
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
@@ -21,9 +21,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.rajarajanreader.app.R
-import com.rajarajanreader.app.presentation.theme.LocalReaderColors
-import com.rajarajanreader.app.presentation.theme.LocalReaderTypography
+import com.livin.ambedkarindhiavilsathigal.R
+import com.livin.ambedkarindhiavilsathigal.presentation.theme.LocalReaderColors
+import com.livin.ambedkarindhiavilsathigal.presentation.theme.LocalReaderTypography
 import kotlinx.coroutines.delay
 
 @Composable
@@ -75,8 +75,8 @@ fun SplashScreen(onStart: (isFirstLaunch: Boolean) -> Unit, vm: SplashViewModel 
                             .clip(RoundedCornerShape(16.dp))
                     ) {
                         Image(
-                            painter            = painterResource(R.drawable.mural_hero),
-                            contentDescription = "royal mural",
+                            painter            = painterResource(R.drawable.ambedkar_portrait),
+                            contentDescription = "Dr. B.R. Ambedkar",
                             contentScale       = ContentScale.Crop,
                             modifier           = Modifier.fillMaxSize()
                         )
@@ -125,7 +125,7 @@ fun SplashScreen(onStart: (isFirstLaunch: Boolean) -> Unit, vm: SplashViewModel 
                         modifier = Modifier.padding(top = 4.dp, bottom = 6.dp)
                     ) {
                         Text(
-                            text     = "RAJA RAJA-I  •  ${s.book.totalChapters} அத்தியாயங்கள்",
+                            text     = "${s.book.totalChapters} அத்தியாயங்கள்",
                             style    = t.caption.copy(fontSize = 12.sp),
                             color    = c.gold,
                             modifier = Modifier.padding(horizontal = 16.dp, vertical = 6.dp)

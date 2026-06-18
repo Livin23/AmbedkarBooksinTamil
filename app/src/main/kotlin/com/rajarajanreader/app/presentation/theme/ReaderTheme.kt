@@ -1,4 +1,4 @@
-package com.rajarajanreader.app.presentation.theme
+package com.livin.ambedkarindhiavilsathigal.presentation.theme
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
@@ -12,8 +12,8 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import com.rajarajanreader.app.R
-import com.rajarajanreader.app.domain.ReadingTheme
+import com.livin.ambedkarindhiavilsathigal.R
+import com.livin.ambedkarindhiavilsathigal.domain.ReadingTheme
 
 private val NotoSerifTamil = FontFamily(
     Font(R.font.noto_serif_tamil_regular, FontWeight.Normal),

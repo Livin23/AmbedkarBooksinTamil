@@ -1,4 +1,4 @@
-package com.rajarajanreader.app.presentation.screen.reader
+package com.livin.ambedkarindhiavilsathigal.presentation.screen.reader
 
 import android.app.Activity
 import android.content.Intent
@@ -29,13 +29,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.rajarajanreader.app.BookReaderApp
-import com.rajarajanreader.app.domain.SectionType
-import com.rajarajanreader.app.presentation.component.ChapterProgressBar
-import com.rajarajanreader.app.presentation.component.OrnamentalSectionDivider
-import com.rajarajanreader.app.presentation.component.SectionRenderer
-import com.rajarajanreader.app.presentation.theme.LocalReaderColors
-import com.rajarajanreader.app.presentation.theme.LocalReaderTypography
+import com.livin.ambedkarindhiavilsathigal.BookReaderApp
+import com.livin.ambedkarindhiavilsathigal.domain.SectionType
+import com.livin.ambedkarindhiavilsathigal.presentation.component.ChapterProgressBar
+import com.livin.ambedkarindhiavilsathigal.presentation.component.OrnamentalSectionDivider
+import com.livin.ambedkarindhiavilsathigal.presentation.component.SectionRenderer
+import com.livin.ambedkarindhiavilsathigal.presentation.theme.LocalReaderColors
+import com.livin.ambedkarindhiavilsathigal.presentation.theme.LocalReaderTypography
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -368,7 +368,7 @@ private fun FontSizePanel(
     currentSize : Float,
     onSizeChange: (Float) -> Unit,
     onDismiss   : () -> Unit,
-    colors      : com.rajarajanreader.app.presentation.theme.ReaderColors
+    colors      : com.livin.ambedkarindhiavilsathigal.presentation.theme.ReaderColors
 ) {
     Surface(
         shape = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp),

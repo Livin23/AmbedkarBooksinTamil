@@ -1,10 +1,10 @@
-package com.rajarajanreader.app.presentation.screen.index
+package com.livin.ambedkarindhiavilsathigal.presentation.screen.index
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.rajarajanreader.app.BookReaderApp
-import com.rajarajanreader.app.domain.Book
+import com.livin.ambedkarindhiavilsathigal.BookReaderApp
+import com.livin.ambedkarindhiavilsathigal.domain.Book
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
