@@ -1,4 +1,4 @@
-package com.rajarajanreader.app.presentation.walkthrough
+package com.livin.ambedkarindhiavilsathigal.presentation.walkthrough
 
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Canvas
@@ -26,8 +26,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.rajarajanreader.app.presentation.theme.LocalReaderColors
-import com.rajarajanreader.app.presentation.theme.LocalReaderTypography
+import com.livin.ambedkarindhiavilsathigal.presentation.theme.LocalReaderColors
+import com.livin.ambedkarindhiavilsathigal.presentation.theme.LocalReaderTypography
 import kotlin.math.roundToInt
 
 private val SPOTLIGHT_PAD_PX = 14f

@@ -1,4 +1,4 @@
-package com.rajarajanreader.app.presentation.screen.index
+package com.livin.ambedkarindhiavilsathigal.presentation.screen.index
 
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
@@ -28,13 +28,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.rajarajanreader.app.BookReaderApp
-import com.rajarajanreader.app.domain.BookPart
-import com.rajarajanreader.app.domain.Chapter
-import com.rajarajanreader.app.presentation.theme.LocalReaderColors
-import com.rajarajanreader.app.presentation.theme.LocalReaderTypography
-import com.rajarajanreader.app.presentation.walkthrough.WalkthroughOverlay
-import com.rajarajanreader.app.presentation.walkthrough.indexWalkthroughSteps
+import com.livin.ambedkarindhiavilsathigal.BookReaderApp
+import com.livin.ambedkarindhiavilsathigal.domain.BookPart
+import com.livin.ambedkarindhiavilsathigal.domain.Chapter
+import com.livin.ambedkarindhiavilsathigal.presentation.theme.LocalReaderColors
+import com.livin.ambedkarindhiavilsathigal.presentation.theme.LocalReaderTypography
+import com.livin.ambedkarindhiavilsathigal.presentation.walkthrough.WalkthroughOverlay
+import com.livin.ambedkarindhiavilsathigal.presentation.walkthrough.indexWalkthroughSteps
 
 sealed class IndexItem {
     data class Part(val part: BookPart) : IndexItem()

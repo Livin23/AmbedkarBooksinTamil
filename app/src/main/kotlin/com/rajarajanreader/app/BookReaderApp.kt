@@ -1,12 +1,12 @@
-package com.rajarajanreader.app
+package com.livin.ambedkarindhiavilsathigal
 
 import android.app.Application
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.*
 import androidx.datastore.preferences.preferencesDataStore
 import com.google.android.gms.ads.MobileAds
-import com.rajarajanreader.app.ads.AdManager
-import com.rajarajanreader.app.data.BookRepository
+import com.livin.ambedkarindhiavilsathigal.ads.AdManager
+import com.livin.ambedkarindhiavilsathigal.data.BookRepository
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 
@@ -62,6 +62,15 @@ class BookReaderApp : Application() {
 
     fun saveFontSize(size: Float) {
         scope.launch { dataStore.edit { it[Keys.FONT_SIZE] = size } }
+    }
+
+    // ── Onboarding seen flag ─────────────────────────────────────────────────
+    val onboardingShown: Flow<Boolean> by lazy {
+        dataStore.data.map { it[Keys.INDEX_WALKTHROUGH_DONE] ?: false }
+    }
+
+    fun markOnboardingShown() {
+        scope.launch { dataStore.edit { it[Keys.INDEX_WALKTHROUGH_DONE] = true } }
     }
 
     // ── Walkthrough seen flags ────────────────────────────────────────────────

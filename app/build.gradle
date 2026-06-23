@@ -8,7 +8,7 @@ def keystoreProps = new Properties()
 if (keystorePropsFile.exists()) keystoreProps.load(new FileInputStream(keystorePropsFile))
 
 android {
-    namespace 'com.rajarajanreader.app'
+    namespace 'com.livin.ambedkarindhiavilsathigal'
     compileSdk 35
 
     defaultConfig {

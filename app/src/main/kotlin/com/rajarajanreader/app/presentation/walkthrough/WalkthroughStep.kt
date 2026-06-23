@@ -1,4 +1,4 @@
-package com.rajarajanreader.app.presentation.walkthrough
+package com.livin.ambedkarindhiavilsathigal.presentation.walkthrough
 
 data class WalkthroughStep(
     val anchorKey     : String?,
