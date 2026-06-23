@@ -213,7 +213,7 @@ fun SearchScreen(
                             textAlign = androidx.compose.ui.text.style.TextAlign.Center
                         )
                         Text(
-                            "எ.கா: இராசராசன், கங்கைகொண்டான், திருவரங்கம்",
+                            "எ.கா: சாதி, அகமணம், தீண்டாமை",
                             color     = c.textSec.copy(0.55f),
                             style     = t.caption.copy(fontSize = 13.sp, lineHeight = 22.sp),
                             textAlign = androidx.compose.ui.text.style.TextAlign.Center

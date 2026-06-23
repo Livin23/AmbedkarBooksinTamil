@@ -1,6 +1,6 @@
-# Keep all Gson DTO classes (wrong package name caused the crash)
--keep class com.tamilbookreader.app.data.** { *; }
--keep class com.tamilbookreader.app.domain.** { *; }
+# Keep all Gson DTO and domain classes (must match actual package)
+-keep class com.livin.ambedkarindhiavilsathigal.data.** { *; }
+-keep class com.livin.ambedkarindhiavilsathigal.domain.** { *; }
 
 # Gson internals
 -keepattributes Signature
